@@ -3,48 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Bike Share — Freedom of Mobility</title>
+  <title>BikeShare™ — Category-Defining Two-Wheeler Leasing</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
+    /* ==========================================================================
+       BIKE SHARE DESIGN SYSTEM (Apple x Turo x Airbnb Mobility Polish)
+       ========================================================================== */
     :root {
-      --bg-main: #0B0E11;
-      --bg-surface: #14181E;
-      --bg-elevated: #1B2129;
-      --bg-subtle: #222933;
+      --bg-main: #090B0E;
+      --bg-surface: #12161D;
+      --bg-elevated: #1A202A;
+      --bg-subtle: #242D3B;
       --border-dim: rgba(255, 255, 255, 0.08);
       --border-strong: rgba(255, 255, 255, 0.16);
-      --accent-primary: #C6FF00;
-      --accent-hover: #D4FF33;
-      --accent-dark: #000000;
-      --accent-dim: rgba(198, 255, 0, 0.12);
+
+      --accent: #C6FF00;              /* Kinetic mobility lime */
+      --accent-hover: #D8FF33;
+      --accent-muted: rgba(198, 255, 0, 0.12);
+
       --text-primary: #FFFFFF;
       --text-secondary: #94A3B8;
       --text-muted: #64748B;
+
       --status-success: #10B981;
       --status-warn: #F59E0B;
       --status-danger: #EF4444;
-      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
-      --radius-xs: 6px;
+
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --radius-sm: 10px;
       --radius-md: 16px;
       --radius-lg: 24px;
       --radius-pill: 9999px;
-      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.7);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
+
     body {
-      font-family: var(--font-family);
-      background-color: #050709;
+      font-family: var(--font);
+      background-color: #030406;
       color: var(--text-primary);
       display: flex;
       justify-content: center;
@@ -54,6 +62,8 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
+
+    /* Outer Container: Realistic Mobile Device Shell */
     #app-container {
       width: 100%;
       max-width: 440px;
@@ -63,45 +73,1684 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
       border-left: 1px solid var(--border-dim);
       border-right: 1px solid var(--border-dim);
+      box-shadow: 0 0 60px rgba(0,0,0,0.85);
     }
-    @media (min-width: 450px) {
+
+    @media (min-width: 460px) {
       #app-container {
-        height: 92vh;
-        border-radius: 36px;
-        border: 1px solid var(--border-dim);
+        height: 94vh;
+        border-radius: 40px;
+        border: 1px solid var(--border-strong);
       }
     }
+
+    /* Universal Floating App Header */
     .app-header {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 64px;
-      background: rgba(11, 14, 17, 0.85);
+      background: rgba(9, 11, 14, 0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       z-index: 50;
       border-bottom: 1px solid var(--border-dim);
-    }
-    .header-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 100%;
       padding: 0 16px;
     }
+
     .brand {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       cursor: pointer;
     }
-    .brand-glyph {
+
+    .brand-icon {
       width: 34px;
       height: 34px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: #000;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 14px rgba(198, 255, 0, 0.35);
+    }
+
+    .brand-text {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-text span {
+      color: var(--accent);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .role-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-pill:active { transform: scale(0.96); }
+
+    .role-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    /* Main Viewport Router Container */
+    .app-main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      margin-top: 64px;
+      margin-bottom: 72px;
+    }
+
+    .view-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 50px;
+      display: none;
+      scrollbar-width: none;
+    }
+
+    .view-screen::-webkit-scrollbar { display: none; }
+    .view-screen.active { display: block; }
+
+    /* Screen Sub-Header with Instant Back Button */
+    .screen-back-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px 6px 18px;
+    }
+
+    .back-circle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .back-circle-btn:active { background: var(--bg-elevated); transform: scale(0.95); }
+
+    .screen-back-title {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    /* Hero Section Component */
+    .hero-box {
+      padding: 18px 18px 12px 18px;
+      background: radial-gradient(circle at 100% 0%, rgba(198, 255, 0, 0.1) 0%, transparent 65%);
+    }
+
+    .pill-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-muted);
+      border: 1px solid rgba(198, 255, 0, 0.25);
+      border-radius: var(--radius-pill);
+      color: var(--accent);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .hero-h1 {
+      font-size: 1.7rem;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .hero-p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin-bottom: 18px;
+    }
+
+    /* Interactive Search Capsule */
+    .search-capsule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-capsule:active { border-color: var(--accent); }
+    .search-capsule-icon { color: var(--accent); }
+    .search-capsule-info { flex: 1; }
+    .search-capsule-info .line-1 { font-size: 0.72rem; font-weight: 700; color: #fff; }
+    .search-capsule-info .line-2 { font-size: 0.72rem; color: var(--text-muted); }
+    .search-capsule-action { color: var(--text-secondary); }
+
+    /* Horizontal Category Scroller */
+    .section-wrap { padding: 16px 18px; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .section-head h2 { font-size: 1.1rem; font-weight: 800; }
+    .section-head span { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
+
+    .category-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+
+    .category-scroll::-webkit-scrollbar { display: none; }
+
+    .cat-btn {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-pill);
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .cat-btn.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      font-weight: 800;
+    }
+
+    /* Cards Grid */
+    .cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bike-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.18s var(--ease), border-color 0.18s;
+    }
+
+    .bike-card:active { transform: scale(0.98); border-color: var(--border-strong); }
+
+    .card-photo-box {
+      position: relative;
+      height: 180px;
+      width: 100%;
+      background: #000;
+    }
+
+    .card-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(9, 11, 14, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border-strong);
+    }
+
+    .card-fav-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(9, 11, 14, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-strong);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .card-fav-btn.active {
+      color: #EF4444;
+      border-color: rgba(239, 68, 68, 0.5);
+    }
+    .card-fav-btn.active svg { fill: #EF4444; }
+
+    .card-content {
+      padding: 14px 16px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .card-score {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .card-score svg { color: #FBBF24; fill: #FBBF24; }
+
+    .card-loc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .card-chips {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .chip {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-dim);
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--border-dim);
+      padding-top: 10px;
+    }
+
+    .price-num {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .price-num span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .dep-text {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    /* Explore Search & Filtering Bar */
+    .explore-search-area {
+      position: sticky;
+      top: 0;
+      background: var(--bg-main);
+      z-index: 20;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-dim);
+    }
+
+    .filter-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-search-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 0 12px;
+      gap: 8px;
+    }
+
+    .filter-search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      height: 42px;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 0.85rem;
+    }
+
+    .filter-search-box input:focus { outline: none; }
+
+    .filter-btn-trigger {
+      width: 42px;
+      height: 42px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .filter-status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .filter-status-row select {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    /* Bento Trust Modules */
+    .bento-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bento-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .bento-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-muted);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      margin-bottom: 10px;
+    }
+
+    .bento-item h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+    .bento-item p { font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; }
+
+    /* Fullscreen Sheets / Modals */
+    .sheet-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-main);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      animation: modalSlideUp 0.25s var(--ease);
+    }
+
+    @keyframes modalSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-top-bar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border-dim);
+      background: rgba(9, 11, 14, 0.95);
+      backdrop-filter: blur(16px);
+      flex-shrink: 0;
+    }
+
+    .sheet-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+    }
+
+    .sheet-scroll-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 90px;
+    }
+
+    /* Fixed Bottom Action Bar */
+    .sticky-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 74px;
+      background: rgba(18, 22, 29, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      z-index: 10;
+    }
+
+    .sticky-bar-price .val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent);
+      display: block;
+    }
+
+    .sticky-bar-price .sub {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    /* Step Tracker in Checkout */
+    .steps-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .step-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      display: grid;
+      place-items: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .step-dot.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .step-line {
+      width: 36px;
+      height: 2px;
+      background: var(--border-dim);
+    }
+
+    .step-line.active { background: var(--accent); }
+
+    /* Cost Transparency Card */
+    .cost-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .cost-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .cost-line span:last-child {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .cost-divider {
+      height: 1px;
+      background: var(--border-dim);
+      margin: 10px 0;
+    }
+
+    .cost-line.total {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .cost-line.total span:last-child {
+      color: var(--accent);
+      font-size: 1.15rem;
+    }
+
+    /* Tenure Pills */
+    .tenure-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tenure-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-sm);
+      padding: 10px 4px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .tenure-btn.active {
+      border-color: var(--accent);
+      background: var(--accent-muted);
+    }
+
+    .tenure-title { font-size: 0.8rem; font-weight: 800; }
+    .tenure-desc { font-size: 0.62rem; color: var(--text-muted); }
+    .tenure-desc.green { color: var(--accent); font-weight: 700; }
+
+    /* Chat Elements */
+    .chat-bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .chat-bubble.owner {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      color: #fff;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-bubble.me {
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* Forms */
+    .field-wrap { margin-bottom: 12px; }
+    .field-wrap label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field-wrap input, .field-wrap select {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 0.85rem;
+    }
+
+    .field-wrap input:focus, .field-wrap select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    /* Persistent Bottom Navigation */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: rgba(9, 11, 14, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 4px 6px 4px;
+      z-index: 60;
+    }
+
+    .nav-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 6px 12px;
+      transition: color 0.15s;
+    }
+
+    .nav-tab span { font-size: 0.65rem; font-weight: 600; }
+    .nav-tab.active { color: var(--accent); }
+    .nav-tab.active svg { stroke: var(--accent); }
+
+    /* Generic Utility Primitives */
+    .btn {
+      border-radius: var(--radius-pill);
+      border: none;
+      font-family: var(--font);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 12px 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s;
+    }
+
+    .btn:active { transform: scale(0.97); }
+    .btn-accent { background: var(--accent); color: #000; }
+    .btn-accent:hover { background: var(--accent-hover); }
+    .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: #fff; }
+    .btn-dark { background: var(--bg-elevated); color: #fff; border: 1px solid var(--border-strong); }
+    .btn-sm { padding: 8px 12px; font-size: 0.72rem; }
+    .w-full { width: 100%; }
+
+    /* Toast Notification */
+    .toast-alert {
+      position: absolute;
+      top: 74px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      color: #000;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      white-space: nowrap;
+      animation: toastIn 0.2s var(--ease);
+    }
+
+    @keyframes toastIn {
+      from { transform: translate(-50%, -12px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE DEVICE FRAME -->
+  <div id="app-container">
+
+    <!-- FLOATING TOP BAR -->
+    <header class="app-header">
+      <div class="brand" onclick="navigateTo('home')">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+        </div>
+        <span class="brand-text">Bike<span>Share</span></span>
+      </div>
+
+      <div class="header-actions">
+        <button class="role-pill" id="roleBtn" onclick="toggleRole()">
+          <span class="role-dot"></span>
+          <span id="roleLabel">Customer Mode</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN ROUTER -->
+    <main class="app-main">
+
+      <!-- ================= 1. HOME SCREEN ================= -->
+      <section id="view-home" class="view-screen active">
+        <div class="hero-box">
+          <div class="pill-kicker">Premium Two-Wheeler Leases</div>
+          <h1 class="hero-h1">Ride without the debt.<br>Zero down-payment.</h1>
+          <p class="hero-p">1–12 month micro-leases with roadside protection, insurance, and door-step handoff included.</p>
+
+          <div class="search-capsule" onclick="navigateTo('explore')">
+            <div class="search-capsule-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </div>
+            <div class="search-capsule-info">
+              <div class="line-1">Explore Fleet (50 Machines)</div>
+              <div class="line-2">Bangalore, Mumbai, Gurgaon • 150cc to 650cc</div>
+            </div>
+            <div class="search-capsule-action">›</div>
+          </div>
+        </div>
+
+        <div class="section-wrap">
+          <div class="section-head">
+            <h2>Select Category</h2>
+            <span id="homeCatSummary">All Types</span>
+          </div>
+          <div class="category-scroll">
+            <button class="cat-btn active" onclick="setCategoryFilter('All', this)">All (50)</button>
+            <button class="cat-btn" onclick="setCategoryFilter('Electric', this)">Electric</button>
+            <button class="cat-btn" onclick="setCategoryFilter('Adventure', this)">Adventure</button>
+            <button class="cat-btn" onclick="setCategoryFilter('Sport', this)">Sport</button>
+            <button class="cat-btn" onclick="setCategoryFilter('Cruiser', this)">Cruiser</button>
+            <button class="cat-btn" onclick="setCategoryFilter('Scooter', this)">Scooters</button>
+          </div>
+        </div>
+
+        <div class="section-wrap">
+          <div class="section-head">
+            <h2>Curated Spotlight</h2>
+            <span onclick="navigateTo('explore')" style="color:var(--accent); cursor:pointer;">See all ›</span>
+          </div>
+          <div class="cards-stack" id="spotlightCards"></div>
+        </div>
+
+        <div class="section-wrap">
+          <div class="bento-grid">
+            <div class="bento-item">
+              <div class="bento-icon">🛡️</div>
+              <h4>All-Risk Structural Insurance</h4>
+              <p>Every bike is insured bumper-to-bumper with zero financial liability for non-negligent damages.</p>
+            </div>
+            <div class="bento-item">
+              <div class="bento-icon">🔒</div>
+              <h4>100% Escrow-Backed Security</h4>
+              <p>Deposits are locked in digital escrow accounts and credited back within 24 hours of return.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. EXPLORE / FLEET SCREEN ================= -->
+      <section id="view-explore" class="view-screen">
+        <div class="screen-back-bar">
+          <button class="back-circle-btn" onclick="navigateTo('home')">‹</button>
+          <div class="screen-back-title">Browse Full Fleet</div>
+        </div>
+
+        <div class="explore-search-area">
+          <div class="filter-input-row">
+            <div class="filter-search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="filterInput" placeholder="Search KTM, Hunter, Ather, Bangalore..." oninput="handleSearchQuery(this.value)">
+            </div>
+            <button class="filter-btn-trigger" onclick="openFilterSheet()">⚙</button>
+          </div>
+          <div class="filter-status-row">
+            <span id="fleetCountLabel">Showing 50 bikes</span>
+            <select id="sortDropdown" onchange="handleSortFleet(this.value)">
+              <option value="featured">Featured First</option>
+              <option value="asc">Price: Low to High</option>
+              <option value="desc">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-wrap">
+          <div class="cards-stack" id="marketplaceCards"></div>
+        </div>
+      </section>
+
+      <!-- ================= 3. SAVED / BOOKMARKS SCREEN ================= -->
+      <section id="view-saved" class="view-screen">
+        <div class="screen-back-bar">
+          <button class="back-circle-btn" onclick="navigateTo('home')">‹</button>
+          <div class="screen-back-title">Saved Vehicles</div>
+        </div>
+
+        <div class="section-wrap">
+          <div class="cards-stack" id="savedCards"></div>
+          <div id="savedEmptyPrompt" class="hidden" style="text-align:center; padding: 40px 10px;">
+            <div style="font-size: 2.5rem; margin-bottom: 12px;">📑</div>
+            <h3>No Bookmarks Yet</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 6px 0 16px;">Bookmark bikes while searching to compare prices and rental packages.</p>
+            <button class="btn btn-outline btn-sm" onclick="navigateTo('explore')">Browse Available Fleet</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. CONCIERGE / CHAT LIST SCREEN ================= -->
+      <section id="view-messages" class="view-screen">
+        <div class="screen-back-bar">
+          <button class="back-circle-btn" onclick="navigateTo('home')">‹</button>
+          <div class="screen-back-title">Lease Concierge</div>
+        </div>
+
+        <div class="section-wrap">
+          <div class="cards-stack">
+            <div class="bento-item" style="cursor:pointer;" onclick="openChat('Kavita Sharma', 'KTM 390 Adventure', 'KA-01-MJ-9921')">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <h4 style="color:#fff;">Kavita Sharma <span style="color:#38BDF8;">✓</span></h4>
+                <span style="font-size:0.65rem; color:var(--text-muted);">10:45 AM</span>
+              </div>
+              <div style="font-size:0.7rem; color:var(--accent); font-weight:700;">KTM 390 Adventure • Indiranagar</div>
+              <p style="margin-top:4px;">"The bike has brand new sintered brake pads. When are you picking it up?"</p>
+            </div>
+
+            <div class="bento-item" style="cursor:pointer;" onclick="openChat('BikeShare Dispatch', 'Autonomous Escrow', 'HQ Operational')">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <h4 style="color:#fff;">BikeShare Operations <span style="background:var(--accent); color:#000; font-size:0.6rem; padding:1px 4px; border-radius:3px;">Staff</span></h4>
+                <span style="font-size:0.65rem; color:var(--text-muted);">Yesterday</span>
+              </div>
+              <div style="font-size:0.7rem; color:var(--accent); font-weight:700;">Automated System</div>
+              <p style="margin-top:4px;">Your digital Aadhaar KYC verification was completed successfully.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. ACCOUNT / OWNER COMMAND SCREEN ================= -->
+      <section id="view-account" class="view-screen">
+        <div class="screen-back-bar">
+          <button class="back-circle-btn" onclick="navigateTo('home')">‹</button>
+          <div class="screen-back-title">Account & Fleet Center</div>
+        </div>
+
+        <div class="section-wrap">
+          <!-- Profile Card -->
+          <div class="bento-item" style="display:flex; gap:14px; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:50%; background:var(--bg-elevated); border:2px solid var(--accent); display:grid; place-items:center; font-weight:800; color:var(--accent);">AS</div>
+            <div>
+              <h3 style="font-size:1rem;">Aditya Sen <span style="font-size:0.6rem; background:rgba(16,185,129,0.2); color:#10B981; padding:2px 6px; border-radius:99px;">Tier 1 Verified</span></h3>
+              <p style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Bangalore, India • 38 Completed Leases</p>
+            </div>
+          </div>
+
+          <!-- CUSTOMER MODE CONTENT -->
+          <div id="customerCenter">
+            <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+              <h3 style="font-size:0.95rem;">Current Active Lease</h3>
+              <span style="font-size:0.65rem; color:#10B981; font-weight:700;">Live • Day 18/90</span>
+            </div>
+
+            <div class="bike-card" style="margin-top:10px;">
+              <div class="card-photo-box" style="height:140px;">
+                <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80" alt="Current bike">
+              </div>
+              <div class="card-content">
+                <div class="card-title">BMW G 310 GS Adventure</div>
+                <div class="card-loc">Host: Vikram Malhotra (KA-03-JJ-1102)</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:var(--bg-elevated); padding:8px; border-radius:8px; margin-top:8px;">
+                  <div><span style="font-size:0.6rem; color:var(--text-muted); display:block;">Next Billing Date</span><strong>₹14,500 on 4th</strong></div>
+                  <div><span style="font-size:0.6rem; color:var(--text-muted); display:block;">Escrow Protected</span><strong>₹10,000 Safe</strong></div>
+                </div>
+                <div style="display:flex; gap:8px; margin-top:12px;">
+                  <button class="btn btn-outline btn-sm w-full" onclick="showToast('Contract deed (PDF) sent to registered email.')">Legal Agreement</button>
+                  <button class="btn btn-dark btn-sm w-full" onclick="showToast('24/7 Roadside Concierge SOS summoned.')">Roadside SOS</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OWNER MODE CONTENT -->
+          <div id="ownerCenter" class="hidden">
+            <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+              <h3 style="font-size:0.95rem;">Owner Earnings Overview</h3>
+              <span style="font-size:0.65rem; color:var(--accent); font-weight:700;">Active Month</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+              <div class="bento-item">
+                <span style="font-size:0.68rem; color:var(--text-muted);">Current Gross</span>
+                <div style="font-size:1.3rem; font-weight:800; color:#fff; margin:4px 0;">₹68,500</div>
+                <span style="font-size:0.65rem; color:#10B981; font-weight:700;">+18.4% vs last month</span>
+              </div>
+              <div class="bento-item">
+                <span style="font-size:0.68rem; color:var(--text-muted);">Fleet Occupancy</span>
+                <div style="font-size:1.3rem; font-weight:800; color:#fff; margin:4px 0;">100%</div>
+                <span style="font-size:0.65rem; color:#10B981; font-weight:700;">3 of 3 bikes leased</span>
+              </div>
+            </div>
+
+            <button class="btn btn-accent w-full" style="margin-top:14px;" onclick="openAddBikeModal()">+ List Another Motorcycle</button>
+          </div>
+
+          <!-- Settings list -->
+          <div style="margin-top:24px; display:flex; flex-direction:column; gap:8px;">
+            <div class="bento-item" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="showToast('Identity verified with Digilocker Aadhaar.')">
+              <span style="font-size:0.8rem; font-weight:600;">Government Identity & Digilocker</span>
+              <span style="font-size:0.68rem; color:#10B981; font-weight:700;">Active ✓</span>
+            </div>
+            <div class="bento-item" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="showToast('Payment instrument: HDFC UPI AutoPay mandate verified.')">
+              <span style="font-size:0.8rem; font-weight:600;">Automated Payment Mandates</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">›</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= MODAL: BIKE DETAIL ================= -->
+      <div id="detailModal" class="sheet-modal hidden">
+        <div class="sheet-top-bar">
+          <button class="back-circle-btn" onclick="closeDetailModal()">‹</button>
+          <div class="sheet-title">Machine Dossier</div>
+          <button class="back-circle-btn" id="detailBookmarkBtn" onclick="toggleDetailBookmark()">★</button>
+        </div>
+
+        <div class="sheet-scroll-body" id="detailBody"></div>
+
+        <div class="sticky-bar">
+          <div class="sticky-bar-price">
+            <span class="val" id="detailPriceVal">₹12,000</span>
+            <span class="sub">/ month (tax excl.)</span>
+          </div>
+          <button class="btn btn-accent" onclick="openCheckoutModal()">Apply For Lease</button>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: MULTI-STEP CHECKOUT ================= -->
+      <div id="checkoutModal" class="sheet-modal hidden">
+        <div class="sheet-top-bar">
+          <button class="back-circle-btn" onclick="closeCheckoutModal()">‹</button>
+          <div class="sheet-title">Lease Application</div>
+          <div style="width:36px"></div>
+        </div>
+
+        <div class="sheet-scroll-body" style="padding:18px;">
+          <div class="steps-row">
+            <div class="step-dot active">1</div>
+            <div class="step-line active"></div>
+            <div class="step-dot active">2</div>
+            <div class="step-line"></div>
+            <div class="step-dot">3</div>
+          </div>
+
+          <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:4px;">Contract Duration</h2>
+          <p style="font-size:0.75rem; color:var(--text-secondary);">Select tenure. Longer leases include multi-month discounts.</p>
+
+          <div class="tenure-grid">
+            <div class="tenure-btn active" onclick="selectTenure(3, this)">
+              <div class="tenure-title">3 Mo</div>
+              <div class="tenure-desc">Base Rate</div>
+            </div>
+            <div class="tenure-btn" onclick="selectTenure(6, this)">
+              <div class="tenure-title">6 Mo</div>
+              <div class="tenure-desc green">5% Off</div>
+            </div>
+            <div class="tenure-btn" onclick="selectTenure(12, this)">
+              <div class="tenure-title">12 Mo</div>
+              <div class="tenure-desc green">12% Off</div>
+            </div>
+          </div>
+
+          <div class="cost-card">
+            <div class="cost-line">
+              <span id="coTenureLabel">Monthly Lease (3 Mo)</span>
+              <span id="coMonthlyVal">₹13,500</span>
+            </div>
+            <div class="cost-line">
+              <span>Security Escrow (100% Refundable)</span>
+              <span id="coDepositVal">₹9,000</span>
+            </div>
+            <div class="cost-line">
+              <span>Comprehensive Damage Cover</span>
+              <span style="color:#10B981;">INCLUDED</span>
+            </div>
+            <div class="cost-line">
+              <span>Platform Dispatch Fee</span>
+              <span>₹499</span>
+            </div>
+            <div class="cost-divider"></div>
+            <div class="cost-line total">
+              <span>Total Payable Now</span>
+              <span id="coTotalVal">₹22,999</span>
+            </div>
+          </div>
+
+          <button class="btn btn-accent w-full" style="margin-top:20px; padding:15px;" onclick="finishCheckout()">Confirm & Sign Lease Contract</button>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: ADD MOTORCYCLE ================= -->
+      <div id="addBikeModal" class="sheet-modal hidden">
+        <div class="sheet-top-bar">
+          <button class="back-circle-btn" onclick="closeAddBikeModal()">✕</button>
+          <div class="sheet-title">List Motorcycle</div>
+          <div style="width:36px"></div>
+        </div>
+
+        <div class="sheet-scroll-body" style="padding:18px;">
+          <h2 style="font-size:1.15rem; font-weight:800; margin-bottom:4px;">List Your Bike</h2>
+          <p style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:16px;">Earn passive income on your idle motorcycle with complete insurance coverage.</p>
+
+          <form onsubmit="submitNewBike(event)">
+            <div class="field-wrap">
+              <label>Vehicle Make & Model</label>
+              <input type="text" id="addName" required placeholder="e.g. Royal Enfield Hunter 350">
+            </div>
+
+            <div class="field-row">
+              <div class="field-wrap">
+                <label>Category</label>
+                <select id="addCategory">
+                  <option>Sport</option>
+                  <option>Adventure</option>
+                  <option>Cruiser</option>
+                  <option>Electric</option>
+                  <option>Scooter</option>
+                </select>
+              </div>
+              <div class="field-wrap">
+                <label>Model Year</label>
+                <input type="number" id="addYear" value="2023" required>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field-wrap">
+                <label>Monthly Rent (₹)</label>
+                <input type="number" id="addPrice" value="9500" required>
+              </div>
+              <div class="field-wrap">
+                <label>Security Deposit (₹)</label>
+                <input type="number" id="addDeposit" value="7000" required>
+              </div>
+            </div>
+
+            <div class="field-wrap">
+              <label>Location / Area</label>
+              <input type="text" id="addLoc" value="Indiranagar, Bangalore" required>
+            </div>
+
+            <div class="field-wrap">
+              <label>Engine Spec</label>
+              <input type="text" id="addEngine" value="349cc Air-Oil Cooled" required>
+            </div>
+
+            <button type="submit" class="btn btn-accent w-full" style="margin-top:14px;">Publish Vehicle Listing</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: FILTER DRAWER ================= -->
+      <div id="filterModal" class="sheet-modal hidden">
+        <div class="sheet-top-bar">
+          <button class="back-circle-btn" onclick="closeFilterSheet()">‹</button>
+          <div class="sheet-title">Fleet Filters</div>
+          <button style="background:transparent; border:none; color:var(--accent); font-weight:700;" onclick="resetAllFilters()">Reset</button>
+        </div>
+
+        <div class="sheet-scroll-body" style="padding:18px;">
+          <h3 style="font-size:0.9rem; margin-bottom:8px;">Max Monthly Budget: <span id="budgetDisplay" style="color:var(--accent);">₹35,000</span></h3>
+          <input type="range" id="filterBudgetSlider" min="3500" max="45000" step="1000" value="35000" style="width:100%; accent-color:var(--accent);" oninput="onBudgetSliderChange(this.value)">
+
+          <h3 style="font-size:0.9rem; margin-top:24px; margin-bottom:8px;">Category Selection</h3>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;" id="filterCategoryPills">
+            <button class="cat-btn active" onclick="selectFilterPill('All', this)">All</button>
+            <button class="cat-btn" onclick="selectFilterPill('Electric', this)">Electric</button>
+            <button class="cat-btn" onclick="selectFilterPill('Adventure', this)">Adventure</button>
+            <button class="cat-btn" onclick="selectFilterPill('Sport', this)">Sport</button>
+            <button class="cat-btn" onclick="selectFilterPill('Cruiser', this)">Cruiser</button>
+            <button class="cat-btn" onclick="selectFilterPill('Scooter', this)">Scooter</button>
+          </div>
+
+          <button class="btn btn-accent w-full" style="margin-top:30px;" onclick="applyDrawerFilters()">Apply Filters</button>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: CHAT INTERACTION ================= -->
+      <div id="chatModal" class="sheet-modal hidden">
+        <div class="sheet-top-bar">
+          <button class="back-circle-btn" onclick="closeChat()">‹</button>
+          <div class="sheet-title" id="chatTitle">Chat</div>
+          <div style="width:36px"></div>
+        </div>
+        <div style="padding:8px 16px; background:var(--bg-elevated); font-size:0.72rem; color:var(--accent); font-weight:700;" id="chatSubtitle">Reference: Bike</div>
+
+        <div class="sheet-scroll-body" style="padding:16px; display:flex; flex-direction:column;" id="chatLogs">
+          <div class="chat-bubble owner">Hello! Thanks for your lease reservation. When are you looking to begin your tenure?</div>
+          <div class="chat-bubble me">Hey! I am aiming for this weekend. Are helmets provided?</div>
+          <div class="chat-bubble owner">Yes, two DOT-certified full-face helmets are bundled with the keys.</div>
+        </div>
+
+        <div style="display:flex; gap:8px; padding:10px 14px; background:var(--bg-surface); border-top:1px solid var(--border-dim);">
+          <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; background:var(--bg-elevated); border:1px solid var(--border-dim); border-radius:99px; padding:8px 14px; color:#fff; font-size:0.8rem;" onkeydown="if(event.key==='Enter') sendChatMessage()">
+          <button class="btn btn-accent btn-sm" onclick="sendChatMessage()">Send</button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- PERSISTENT BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+      <button class="nav-tab active" data-view="home" onclick="navigateTo('home')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Discover</span>
+      </button>
+
+      <button class="nav-tab" data-view="explore" onclick="navigateTo('explore')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Fleet (50)</span>
+      </button>
+
+      <button class="nav-tab" data-view="saved" onclick="navigateTo('saved')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>Saved</span>
+      </button>
+
+      <button class="nav-tab" data-view="messages" onclick="navigateTo('messages')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Messages</span>
+      </button>
+
+      <button class="nav-tab" data-view="account" onclick="navigateTo('account')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Account</span>
+      </button>
+    </nav>
+
+    <!-- FLOATING TOAST -->
+    <div id="toast" class="toast-alert hidden">
+      <span>✓</span>
+      <span id="toastText">Action Completed</span>
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT LOGIC & STATE ENGINE -->
+  <script>
+    // --- 50 REALISTIC VEHICLE RECORDS ---
+    const FLEET_DATABASE = [
+      { id: 1, name: "Royal Enfield Himalayan 450", category: "Adventure", year: 2024, location: "Indiranagar, Bangalore", price: 13500, deposit: 9000, engine: "452cc Liquid-Cooled Sherpa", power: "40 PS", transmission: "Manual 6-Speed", mileage: "30 km/l", rating: 4.98, reviews: 34, owner: "Vikram Malhotra", featured: true, img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=600&q=80" },
+      { id: 2, name: "KTM 390 Adventure SW", category: "Adventure", year: 2023, location: "Koramangala, Bangalore", price: 15500, deposit: 11000, engine: "373cc Single Cylinder DOHC", power: "43.5 PS", transmission: "Quickshifter+ 6-Speed", mileage: "28 km/l", rating: 4.95, reviews: 52, owner: "Kavita Sharma", featured: true, img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80" },
+      { id: 3, name: "Ather 450X Gen 3.1", category: "Electric", year: 2024, location: "HSR Layout, Bangalore", price: 4800, deposit: 4000, engine: "3.7 kWh Battery / 6.4 kW", power: "8.7 bhp", transmission: "Automatic Direct Drive", mileage: "110 km Range", rating: 4.92, reviews: 88, owner: "Sanjay Iyer", featured: true, img: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" },
+      { id: 4, name: "BMW G 310 GS", category: "Adventure", year: 2023, location: "Whitefield, Bangalore", price: 16500, deposit: 12000, engine: "313cc Water-Cooled", power: "34 PS", transmission: "Manual 6-Speed", mileage: "31 km/l", rating: 4.89, reviews: 29, owner: "Deepak Chawla", featured: true, img: "https://images.unsplash.com/photo-1558981420-87aa92d0c604?auto=format&fit=crop&w=600&q=80" },
+      { id: 5, name: "Triumph Scrambler 400 X", category: "Sport", year: 2024, location: "Jayanagar, Bangalore", price: 14800, deposit: 10000, engine: "398cc TR-Series", power: "40 PS", transmission: "Manual 6-Speed", mileage: "29 km/l", rating: 5.0, reviews: 19, owner: "Nikhil Rao", featured: true, img: "https://images.unsplash.com/photo-1558981359-219d6364c9c8?auto=format&fit=crop&w=600&q=80" }
+    ];
+
+    // Populate remaining 45 bikes dynamically to fulfill full 50-bike count
+    const SEED_TEMPLATES = [
+      { name: "Royal Enfield Continental GT 650", cat: "Sport", price: 17500, eng: "648cc Twin Cylinder", img: "https://images.unsplash.com/photo-1558981854-325b3901b0ff?auto=format&fit=crop&w=600&q=80" },
+      { name: "Yamaha MT-15 V2", cat: "Sport", price: 7900, eng: "155cc Liquid Cooled VVA", img: "https://images.unsplash.com/photo-1558981408-db0ecd8a1ee4?auto=format&fit=crop&w=600&q=80" },
+      { name: "Harley-Davidson X440", cat: "Cruiser", price: 14900, eng: "440cc Oil Cooled", img: "https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&w=600&q=80" },
+      { name: "Ola S1 Pro Gen 2", cat: "Electric", price: 4200, eng: "4.0 kWh Li-ion", img: "https://images.unsplash.com/photo-1558980664-769d59546b3d?auto=format&fit=crop&w=600&q=80" },
+      { name: "Vespa Elegante 150", cat: "Scooter", price: 5800, eng: "149cc 3V Tech", img: "https://images.unsplash.com/photo-1558980394-a3099ed53a17?auto=format&fit=crop&w=600&q=80" }
+    ];
+
+    const LOCALES = ["Indiranagar, Bangalore", "Koramangala, Bangalore", "Bandra West, Mumbai", "Cyber City, Gurgaon"];
+
+    for (let i = 6; i <= 50; i++) {
+      const s = SEED_TEMPLATES[(i - 6) % SEED_TEMPLATES.length];
+      FLEET_DATABASE.push({
+        id: i,
+        name: `${s.name} #${i}`,
+        category: s.cat,
+        year: 2022 + (i % 3),
+        location: LOCALES[i % LOCALES.length],
+        price: s.price + ((i % 5) * 300),
+        deposit: Math.round(s.price * 0.7),
+        engine: s.eng,
+        power: `${18 + (i % 25)} PS`,
+        transmission: s.cat === "Scooter" || s.cat === "Electric" ? "Automatic" : "Manual 6-Speed",
+        mileage: s.cat === "Electric" ? "120 km/charge" : `${32 + (i % 15)} km/l`,
+        rating: Number((4.7 + ((i % 30) / 100)).toFixed(2)),
+        reviews: 12 + (i * 2),
+        owner: ["Arun Patel", "Priya Nair", "Tanmay Sen", "Suresh Shenoy"][i % 4],
+        featured: i % 7 === 0,
+        img: s.img
+      });
+    }
+
+    // --- APPLICATION STATE ---
+    let currentCategory = "All";
+    let currentMaxBudget = 35000;
+    let currentSearchTerm = "";
+    let currentSort = "featured";
+    let selectedBike = null;
+    let selectedTenure = 3;
+    let isOwnerMode = false;
+    let bookmarks = new Set([1, 3]);
+
+    // Initial Mount
+    document.addEventListener("DOMContentLoaded", () => {
+      renderSpotlight();
+      renderMarketplace();
+      renderBookmarks();
+    });
+
+    // --- ROUTER ---
+    function navigateTo(viewId) {
+      document.querySelectorAll(".view-screen").forEach(s => s.classList.remove("active"));
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) {
+        target.classList.add("active");
+        target.scrollTop = 0;
+      }
+
+      document.querySelectorAll(".bottom-nav .nav-tab").forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.view === viewId);
+      });
+    }
+
+    // Role Switcher
+    function toggleRole() {
+      isOwnerMode = !isOwnerMode;
+      document.getElementById("roleLabel").innerText = isOwnerMode ? "Owner Command" : "Customer Mode";
+      document.getElementById("customerCenter").classList.toggle("hidden", isOwnerMode);
+      document.getElementById("ownerCenter").classList.toggle("hidden", !isOwnerMode);
+      showToast(isOwnerMode ? "Switched to Owner Mode" : "Switched to Customer Mode");
+      navigateTo("account");
+    }
+
+    // --- CARD HTML BUILDER ---
+    function makeCardHTML(bike) {
+      const isBookmarked = bookmarks.has(bike.id);
+      return `
+        <div class="bike-card" onclick="openDetailModal(${bike.id})">
+          <div class="card-photo-box">
+            <img src="${bike.img}" alt="${bike.name}" loading="lazy">
+            <span class="card-tag">${bike.category}</span>
+            <button class="card-fav-btn ${isBookmarked ? 'active' : ''}" onclick="event.stopPropagation(); toggleBookmark(${bike.id})">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <div class="card-content">
+            <div class="card-top">
+              <div class="card-title">${bike.name}</div>
+              <div class="card-score">
+                <svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                ${bike.rating}
+              </div>
+            </div>
+            <div class="card-loc">${bike.location}</div>
+            <div class="card-chips">
+              <span class="chip">${bike.engine.split(' ')[0]}</span>
+              <span class="chip">${bike.transmission.split(' ')[0]}</span>
+              <span class="chip">${bike.year}</span>
+            </div>
+            <div class="card-bottom">
+              <div>
+                <span style="font-size:0.6rem; color:var(--text-muted); display:block;">LEASE</span>
+                <div class="price-num">₹${bike.price.toLocaleString()} <span>/mo</span></div>
+              </div>
+              <div class="dep-text">Deposit: ₹${bike.deposit.toLocaleString()}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- RENDERERS ---
+    function renderSpotlight() {
+      const container = document.getElementById("spotlightCards");
+      if (!container) return;
+      const featured = FLEET_DATABASE.filter(b => b.featured).slice(0, 4);
+      container.innerHTML = featured.map(makeCardHTML).join("");
+    }
+
+    function renderMarketplace() {
+      const container = document.getElementById("marketplaceCards");
+      if (!container) return;
+
+      let filtered = FLEET_DATABASE.filter(b => {
+        const matchCat = currentCategory === "All" || b.category === currentCategory;
+        const matchPrice = b.price <= currentMaxBudget;
+        const matchSearch = b.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+                            b.location.toLowerCase().includes(currentSearchTerm.toLowerCase());
+        return matchCat && matchPrice && matchSearch;
+      });
+
+      if (currentSort === "asc") filtered.sort((a,b) => a.price - b.price);
+      if (currentSort === "desc") filtered.sort((a,b) => b.price - a.price);
+      if (currentSort === "rating") filtered.sort((a,b) => b.rating - a.rating);
+
+      document.getElementById("fleetCountLabel").innerText = `Showing ${filtered.length} bikes`;
+      container.innerHTML = filtered.length ? filtered.map(makeCardHTML).join("") : `<div style="text-align:center; padding:30px; color:var(--text-muted);">No machines found. Try easing filters.</div>`;
+    }
+
+    function renderBookmarks() {
+      const container = document.getElementById("savedCards");
+      const emptyPrompt = document.getElementById("savedEmptyPrompt");
+      const list = FLEET_DATABASE.filter(b => bookmarks.has(b.id));
+
+      if (list.length === 0) {
+        container.innerHTML = "";
+        emptyPrompt.classList.remove("hidden");
+      } else {
+        emptyPrompt.classList.add("hidden");
+        container.innerHTML = list.map(makeCardHTML).join("");
+      }
+    }
+
+    // --- FILTER ACTIONS ---
+    function setCategoryFilter(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll(".category-scroll .cat-btn").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      document.getElementById("homeCatSummary").innerText = cat === "All" ? "All Types" : `${cat} Only`;
+      renderMarketplace();
+    }
+
+    function handleSearchQuery(term) {
+      currentSearchTerm = term;
+      renderMarketplace();
+    }
+
+    function handleSortFleet(rule) {
+      currentSort = rule;
+      renderMarketplace();
+    }
+
+    function toggleBookmark(id) {
+      if (bookmarks.has(id)) {
+        bookmarks.delete(id);
+        showToast("Removed from bookmarks");
+      } else {
+        bookmarks.add(id);
+        showToast("Bookmarked to saved list");
+      }
+      renderSpotlight();
+      renderMarketplace();
+      renderBookmarks();
+
+      const detailStar = document.getElementById("detailBookmarkBtn");
+      if (detailStar && selectedBike && selectedBike.id === id) {
+        detailStar.style.color = bookmarks.has(id) ? "#EF4444" : "#fff";
+      }
+    }
+
+    function toggleDetailBookmark() {
+      if (selectedBike) toggleBookmark(selectedBike.id);
+    }
+
+    // --- MODALS ENGINE ---
+    function openDetailModal(id) {
+      selectedBike = FLEET_DATABASE.find(b => b.id === id);
+      if (!selectedBike) return;
+
+      document.getElementById("detailPriceVal").innerText = `₹${selectedBike.price.toLocaleString()}`;
+      document.getElementById("detailBookmarkBtn").style.color = bookmarks.has(id) ? "#EF4444" : "#fff";
+
+      document.getElementById("detailBody").innerHTML = `
+        <div style="height:230px; position:relative; background:#000;">
+          <img src="${selectedBike.img}" style="width:100%; height:100%; object-fit:cover;">
+          <span class="card-tag" style="top:14px; left:14px;">${selectedBike.category} • Year ${selectedBike.year}</span>
+        </div>
+        <div style="padding:18px;">
+          <h1 style="font-size:1.35rem; font-weight:800;">${selectedBike.name}</h1>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">★ ${selectedBike.rating} (${selectedBike.reviews} ratings) • ${selectedBike.location}</div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:16px;">
+            <div class="bento-item">
+              <span style="font-size:0.65rem; color:var(--text-muted);">Engine/Battery</span>
+              <strong style="font-size:0.8rem; display:block;">${selectedBike.engine}</strong>
+            </div>
+            <div class="bento-item">
+              <span style="font-size:0.65rem; color:var(--text-muted);">Power Output</span>
+              <strong style="font-size:0.8rem; display:block;">${selectedBike.power}</strong>
+            </div>
+            <div class="bento-item">
+              <span style="font-size:0.65rem; color:var(--text-muted);">Transmission</span>
+              <strong style="font-size:0.8rem; display:block;">${selectedBike.transmission}</strong>
+            </div>
+            <div class="bento-item">
+              <span style="font-size:0.65rem; color:var(--text-muted);">Mileage / Range</span>
+              <strong style="font-size:0.8rem; display:block;">${selectedBike.mileage}</strong>
+            </div>
+          </div>
+
+          <div class="bento-item" style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+            <div>
+              <div style="font-size:0.8rem; font-weight:700;">Listed by ${selectedBike.owner}</div>
+              <div style="font-size:0.68rem; color:#10B981;">Verified Host • 100% handoff rate</div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="openChat('${selectedBike.owner}', '${selectedBike.name}', 'KA-01-XX-9900')">Message Host</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("detailModal").classList.remove("hidden");
+    }
+
+    function closeDetailModal() {
+      document.getElementById("detailModal").classList.add("hidden");
+    }
+
+    function openCheckoutModal() {
+      if (!selectedBike) return;
+      selectTenure(3);
+      document.getElementById("checkoutModal").classList.remove("hidden");
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById("checkoutModal").classList.add("hidden");
+    }
+
+    function selectTenure(months, el) {
+      selectedTenure = months;
+      if (el) {
+        document.querySelectorAll(".tenure-btn").forEach(b => b.classList.remove("active"));
+        el.classList.add("active");
+      }
+
+      let discount = months === 6 ? 0.05 : months === 12 ? 0.12 : 0;
+      const baseMonthly = selectedBike ? selectedBike.price : 13500;
+      const effectiveMonthly = Math.round(baseMonthly * (1 - discount));
+      const deposit = selectedBike ? selectedBike.deposit : 9000;
+      const totalNow = effectiveMonthly + deposit + 499;
+
+      document.getElementById("coTenureLabel").innerText = `Monthly Lease (${months} Mo Contract)`;
+      document.getElementById("coMonthlyVal").innerText = `₹${effectiveMonthly.toLocaleString()}`;
+      document.getElementById("coDepositVal").innerText = `₹${deposit.toLocaleString()}`;
+      document.getElementById("coTotalVal").innerText = `₹${totalNow.toLocaleString()}`;
+    }
+
+    function finishCheckout() {
+      closeCheckoutModal();
+      closeDetailModal();
+      showToast("Lease Activated! Keys and telemetry ready.");
+      navigateTo("account");
+    }
+
+    // Add Bike Modal
+    function openAddBikeModal() { document.getElementById("addBikeModal").classList.remove("hidden"); }
+    function closeAddBikeModal() { document.getElementById("addBikeModal").classList.add("hidden"); }
+
+    function submitNewBike(e) {
+      e.preventDefault();
+      const newEntry = {
+        id: FLEET_DATABASE.length + 1,
+        name: document.getElementById("addName").value,
+        category: document.getElementById("addCategory").value,
+        year: parseInt(document.getElementById("addYear").value),
+        location: document.getElementById("addLoc").value,
+        price: parseInt(document.getElementById("addPrice").value),
+        deposit: parseInt(document.getElementById("addDeposit").value),
+        engine: document.getElementById("addEngine").value,
+        power: "28 PS",
+        transmission: "Manual",
+        mileage: "35 km/l",
+        rating: 5.0,
+        reviews: 1,
+        owner: "Aditya Sen",
+        featured: true,
+        img: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80"
+      };
+
+      FLEET_DATABASE.unshift(newEntry);
+      closeAddBikeModal();
+      renderSpotlight();
+      renderMarketplace();
+      showToast("Motorcycle published into live marketplace!");
+      navigateTo("explore");
+    }
+
+    // Filter Sheet Modal
+    function openFilterSheet() { document.getElementById("filterModal").classList.remove("hidden"); }
+    function closeFilterSheet() { document.getElementById("filterModal").classList.add("hidden"); }
+
+    function onBudgetSliderChange(val) {
+      currentMaxBudget = parseInt(val);
+      document.getElementById("budgetDisplay").innerText = `₹${currentMaxBudget.toLocaleString()}`;
+    }
+
+    function selectFilterPill(cat, el) {
+      document.querySelectorAll("#filterCategoryPills .cat-btn").forEach(b => b.classList.remove("active"));
+      el.classList.add("active");
+      currentCategory = cat;
+    }
+
+    function applyDrawerFilters() {
+      closeFilterSheet();
+      renderMarketplace();
+      showToast("Filters applied to fleet.");
+    }
+
+    function resetAllFilters() {
+      currentCategory = "All";
+      currentMaxBudget = 45000;
+      currentSearchTerm = "";
+      document.getElementById("filterBudgetSlider").value = 45000;
+      document.getElementById("budgetDisplay").innerText = "₹45,000";
+      document.getElementById("filterInput").value = "";
+      closeFilterSheet();
+      renderMarketplace();
+      showToast("All filters restored to default.");
+    }
+
+    // Chat System
+    function openChat(owner, bike, reg) {
+      document.getElementById("chatTitle").innerText = owner;
+      document.getElementById("chatSubtitle").innerText = `${bike} (${reg})`;
+      document.getElementById("chatModal").classList.remove("hidden");
+    }
+
+    function closeChat() {
+      document.getElementById("chatModal").classList.add("hidden");
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById("chatInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const log = document.getElementById("chatLogs");
+      const bubble = document.createElement("div");
+      bubble.className = "chat-bubble me";
+      bubble.innerText = text;
+      log.appendChild(bubble);
+      input.value = "";
+      log.scrollTop = log.scrollHeight;
+
+      // Simulated host reply
+      setTimeout(() => {
+        const reply = document.createElement("div");
+        reply.className = "chat-bubble owner";
+        reply.innerText = "Understood. The verified handover protocol has documented your preferences.";
+        log.appendChild(reply);
+        log.scrollTop = log.scrollHeight;
+      }, 700);
+    }
+
+    // Toast Engine
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastText").innerText = msg;
+      toast.classList.remove("hidden");
+      clearTimeout(window._t);
+      window._t = setTimeout(() => toast.classList.add("hidden"), 2600);
+    }
+  </script>
+</body>
+</html>
       border-radius: var(--radius-sm);
       background: var(--accent-primary);
       color: #000;
